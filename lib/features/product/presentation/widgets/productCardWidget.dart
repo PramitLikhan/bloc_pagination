@@ -60,25 +60,6 @@ class ProductCardWidget extends StatelessWidget {
           ),
         ),
       ),
-
-      // ListTile(
-      //   dense: true,
-      //   contentPadding: EdgeInsets.zero,
-      //   style: ListTileStyle.list,
-      //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      //   isThreeLine: true,
-      //   tileColor: Color(0xff242424),
-      //   leading: Container(
-      //       color: Colors.red,
-      //       // height: 100,
-      //       width: 150,
-      //       child: Image.network(
-      //         product.thumbnail.toString(),
-      //         fit: BoxFit.cover,
-      //       )),
-      //   title: Text(product.title.toString()),
-      //   subtitle: Text(product.price.toString()),
-      // ),
     );
   }
 }

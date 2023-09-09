@@ -27,7 +27,7 @@ class _ProductPageState extends State<ProductPage> {
     ProductBloc bloc = context.read<ProductBloc>();
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.white, Color(0xffacca8b)])),
+        decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.white, Color(0xffacca8b)],begin: Alignment.topCenter,end: Alignment.bottomCenter)),
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +43,7 @@ class _ProductPageState extends State<ProductPage> {
               child: BlocBuilder<ProductBloc, ProductState>(
                 builder: (context, state) {
                   return ListView.builder(
-                    itemCount: state.lastValueReturned ? state.products.length : state.products.length + 1,
+                    itemCount:  state.products.length + 1,
                     itemBuilder: (context, index) => paginate(index, widget.productLimit, state, bloc),
                     itemExtent: 100,
                     addRepaintBoundaries: false,
@@ -60,16 +60,17 @@ class _ProductPageState extends State<ProductPage> {
 
   paginate(int index, int limit, ProductState state, bloc) {
     if (index >= state.products.length) {
+      if (state.lastValueReturned) {
+        return Container(
+          height: 100,
+        );
+      }
       // Don't trigger if one async loading is already under way
       if (state.action != ProductAction.isLoading) {
         //if something is not loading then I try to load more
         bloc.add(GetMoreProductsEvent(skip: state.products.length, limit: limit));
       }
-      if (state.lastValueReturned) {
-        return Container(
-          height: 10,
-        );
-      }
+
       //when something is loading then show progress indicator
       if (index == state.products.length) {
         return const Center(
