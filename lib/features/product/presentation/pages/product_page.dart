@@ -43,7 +43,7 @@ class _ProductPageState extends State<ProductPage> {
               child: BlocBuilder<ProductBloc, ProductState>(
                 builder: (context, state) {
                   return ListView.builder(
-                    itemCount: state.products.length + 1,
+                    itemCount: state.lastValueReturned ? state.products.length : state.products.length + 1,
                     itemBuilder: (context, index) => paginate(index, widget.productLimit, state, bloc),
                     itemExtent: 100,
                     addRepaintBoundaries: false,

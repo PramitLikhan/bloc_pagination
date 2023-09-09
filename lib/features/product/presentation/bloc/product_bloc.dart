@@ -33,7 +33,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   getMoreProductsEvent(GetMoreProductsEvent event, Emitter<ProductState> emit) async {
     emit(state.copyWith(action: ProductAction.isLoading));
     await GetProductListUseCase(ProductRepository()).execute(skip: event.skip, limit: event.limit).then((value) {
-      if(value.products!=null){
+      if (value.products != null && value.products!.isNotEmpty) {
         List<Product>? newProducts = value.products?.map((e) => Product.fromJson(e.toJson())).toList();
         List<Product> totalProductList = state.products;
         totalProductList.addAll(newProducts!);
@@ -41,12 +41,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           state.copyWith(
             action: ProductAction.loadMore,
             products: totalProductList,
+            lastValueReturned: false,
           ),
         );
         emit(state.copyWith(action: ProductAction.unknown));
+      } else {
+        emit(state.copyWith(action: ProductAction.unknown, lastValueReturned: true));
       }
-
-
     });
   }
 }
